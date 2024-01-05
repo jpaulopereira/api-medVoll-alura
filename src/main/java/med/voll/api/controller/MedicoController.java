@@ -29,14 +29,30 @@ public class MedicoController {
         //new chama o construtor do dto DadosListagemMedicos
         //:: operador de referência
         //return repository.findAll(paginacao).stream().map(DadosListagemMedicos::new).toList();
-        return repository.findAll(paginacao).map(DadosListagemMedicos::new);
+        //padrao de nomenclatura  do springData que consegue montar a query
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicos::new);
     }
 
     @PutMapping
     @Transactional
     public void atualizar(@Valid @RequestBody DadosAtualizacaoMedico dados) {
-        var medico  = repository.getReferenceById(dados.id());
+        var medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
     }
 
+    /*
+    @DeleteMapping("/{id}")
+    @Transactional
+    //@PathVariable indica para o Spring que o parâmetro dinamigo que vem URL -> long id faz parte da url
+    public void excluir(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
+     */
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void desativarMedico(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        medico.excluir();
+    }
 }
