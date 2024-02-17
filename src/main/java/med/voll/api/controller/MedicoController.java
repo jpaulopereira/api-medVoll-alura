@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("medicos")
@@ -19,10 +20,12 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@Valid @RequestBody DadosCadastroMedico dados) {
-        repository.save(new Medico(dados));
+    public ResponseEntity cadastrar(@Valid @RequestBody DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
 
-        return ResponseEntity.ok()
+        var medico = new Medico(dados);
+        repository.save(medico);
+        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
     }
 
     @GetMapping //não é necessário @Transactional porque aqui é apenas um método de leitura
@@ -40,9 +43,9 @@ public class MedicoController {
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@Valid @RequestBody DadosAtualizacaoMedico dados) {
+
         var medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
-
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
@@ -58,6 +61,7 @@ public class MedicoController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity desativarMedico(@PathVariable Long id) {
+
         var medico = repository.getReferenceById(id);
         medico.excluir();
         return ResponseEntity.noContent().build();
