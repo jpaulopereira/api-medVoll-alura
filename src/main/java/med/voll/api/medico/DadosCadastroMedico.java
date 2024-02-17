@@ -9,6 +9,7 @@ import med.voll.api.endereco.DadosEndereco;
 
 //Especialidade é um enum
 public record DadosCadastroMedico(
+
         @NotBlank
         String nome,
 

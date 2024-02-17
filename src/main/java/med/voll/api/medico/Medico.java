@@ -28,6 +28,7 @@ public class Medico  {
     private boolean ativo;
 
     public Medico(DadosCadastroMedico dados) {
+
         this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
@@ -38,6 +39,7 @@ public class Medico  {
     }
 
     public void atualizarInformacoes(DadosAtualizacaoMedico dados) {
+
         if(dados.nome() != null) {
             this.nome = dados.nome();
         }
