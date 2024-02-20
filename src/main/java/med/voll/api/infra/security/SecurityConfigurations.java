@@ -25,9 +25,14 @@ public class SecurityConfigurations {
     //versão 3.1 do spring
     @Bean //Sem essa anotação no método, o objeto SecurityFilterChain não será exposto como um bean para o Spring.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
+        return
+                http.csrf(csrf -> csrf.disable())
+                        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .authorizeHttpRequests(req -> {
+                            req.requestMatchers("/login").permitAll();
+                            req.anyRequest().authenticated();
+                        })
+                        .build();
     }
 
     @Bean
