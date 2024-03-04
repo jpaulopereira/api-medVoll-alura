@@ -19,13 +19,13 @@ public class AgendaDeConsultasService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void agendar (DadosAgendamentoConsulta dados) {
+    public void agendar(DadosAgendamentoConsulta dados) {
 
-        if(!pacienteRepository.existsById(dados.idPaciente())) {
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("Id do paciente invormado não existe");
         }
 
-        if(dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
+        if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
             throw new ValidacaoException("Id do médico invormado não existe");
         }
 
@@ -38,8 +38,13 @@ public class AgendaDeConsultasService {
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
-       if(dados.idMedico() != null) {
-           return medicoRepository.getReferenceById(dados.idMedico());
-       }
+        if (dados.idMedico() != null) {
+            return medicoRepository.getReferenceById(dados.idMedico());
+        }
+        if (dados.especialidade() == null) {
+            throw new ValidacaoException("Especialidade é obrigatória");
+        }
+
+        return medicoRepository.escolherMedicoAleatorio(dados.especialidade(), dados.data());
     }
 }
