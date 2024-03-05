@@ -13,9 +13,10 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
     //A nomenclatura findAllByAtivoTrue segue a convenção de nomenclatura de consultas automáticas no Spring Data JPA
     Page<Medico> findAllByAtivoTrue(Pageable paginacao);
 
-    //:especialidade -> é o atributo do parâmetro
+    //:especialidade -> é o atributo do parâmetro //Digitar em cima do método
+    //m.id not in -> traz is médicos que o id não estão dentro do sub select
     @Query("""
-            select m from Medico m
+            select m from Medicos m
                    where
                    m.ativo = true
                    and
