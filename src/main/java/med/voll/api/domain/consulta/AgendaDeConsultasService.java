@@ -22,11 +22,11 @@ public class AgendaDeConsultasService {
     public void agendar(DadosAgendamentoConsulta dados) {
 
         if (!pacienteRepository.existsById(dados.idPaciente())) {
-            throw new ValidacaoException("Id do paciente invormado não existe");
+            throw new ValidacaoException("Id do paciente informado não existe");
         }
 
         if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
-            throw new ValidacaoException("Id do médico invormado não existe");
+            throw new ValidacaoException("Id do médico informado não existe");
         }
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
@@ -47,4 +47,9 @@ public class AgendaDeConsultasService {
 
         return medicoRepository.escolherMedicoAleatorio(dados.especialidade(), dados.data());
     }
+
+    private void cancelarCosultas() {
+
+    }
+
 }
