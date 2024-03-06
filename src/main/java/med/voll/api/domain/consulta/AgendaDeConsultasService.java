@@ -22,8 +22,9 @@ public class AgendaDeConsultasService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
+    //Declara a interface -> Procura todas as classes que implementam essas interface
     @Autowired
-    private List<ValidadorAgendamentoDeConsulta> validaddores;
+    private List<ValidadorAgendamentoDeConsulta> validadores;
 
     public void agendar(DadosAgendamentoConsulta dados) {
 
@@ -35,10 +36,14 @@ public class AgendaDeConsultasService {
             throw new ValidacaoException("Id do médico informado não existe");
         }
 
+        //Utilizando princípios de solid
+        //Princípio da Responsabilidade Única (Single Responsibility Principle)
+        //Princípio Aberto/Fechado (Open/Closed Principle)
+        //Princípio da Inversão de Dependência (Dependency Inversion Principle)
+        validadores.forEach(v -> v.validar(dados));
+
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
-
-
         var consulta = new Consulta(null, medico, paciente, dados.data(), null);
         consultaRepository.save(consulta);
     }
