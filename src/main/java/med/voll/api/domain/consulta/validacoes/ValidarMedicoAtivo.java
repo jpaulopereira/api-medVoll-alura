@@ -3,10 +3,14 @@ package med.voll.api.domain.consulta.validacoes;
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.infra.exception.ValidacaoException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ValidarMedicoAtivo {
+@Component
+public class ValidarMedicoAtivo implements ValidadorAgendamentoDeConsulta {
 
     //acessa o banco de dados
+    @Autowired
     private MedicoRepository medicoRepository;
 
     public void validar(DadosAgendamentoConsulta dados) {
@@ -15,7 +19,7 @@ public class ValidarMedicoAtivo {
         }
 
         var medicoEstaAtivo = medicoRepository.findAtivoById(dados.idMedico());
-        if(!medicoEstaAtivo) {
+        if (!medicoEstaAtivo) {
             throw new ValidacaoException("A consulta não pode ser agendada");
         }
     }
