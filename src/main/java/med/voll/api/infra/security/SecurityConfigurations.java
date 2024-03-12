@@ -28,6 +28,7 @@ public class SecurityConfigurations {
 //                .and().build();
 //    }
 
+    //http://localhost:8080/swagger-ui/index.html
     //versão 3.1 do spring
     @Bean //Sem essa anotação no método, o objeto SecurityFilterChain não será exposto como um bean para o Spring.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,6 +36,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
