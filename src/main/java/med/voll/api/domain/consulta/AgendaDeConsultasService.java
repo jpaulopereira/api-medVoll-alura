@@ -22,7 +22,6 @@ public class AgendaDeConsultasService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    //Declara a interface -> Procura todas as classes que implementam essas interface
     @Autowired
     private List<ValidadorAgendamentoDeConsulta> validadores;
 
@@ -72,5 +71,4 @@ public class AgendaDeConsultasService {
         var consulta = consultaRepository.getReferenceById(dados.idConsulta());
         consulta.cancelar(dados.motivo());
     }
-
 }

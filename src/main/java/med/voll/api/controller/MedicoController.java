@@ -30,15 +30,9 @@ public class MedicoController {
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
     }
 
-    @GetMapping //não é necessário @Transactional porque aqui é apenas um método de leitura
+    @GetMapping
     public ResponseEntity<Page<DadosListagemMedicos>> listarNomes(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        //findAll devolve um list de médico e necessario fazer a conversao
-        //faz a conversão de médico para DadosListagemMedicos
-        //new chama o construtor do dto DadosListagemMedicos
-        //:: operador de referência
-        //return repository.findAll(paginacao).stream().map(DadosListagemMedicos::new).toList();
-        //padrao de nomenclatura  do springData que consegue montar a query
-        var  page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicos::new);
+        var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicos::new);
         return ResponseEntity.ok(page);
     }
 
@@ -54,7 +48,6 @@ public class MedicoController {
     /*
     @DeleteMapping("/{id}")
     @Transactional
-    //@PathVariable indica para o Spring que o parâmetro dinamigo que vem URL -> long id faz parte da url
     public void excluir(@PathVariable Long id) {
         repository.deleteById(id);
     }

@@ -18,6 +18,5 @@ public class ValidadorHorarioFuncionametoClinica implements ValidadorAgendamento
         if (domingo || antesDaAberturaDaClinica || depoisDoEncerramentoDaClinica) {
             throw new ValidacaoException("Consulta fora do horário");
         }
-
     }
 }

@@ -28,9 +28,10 @@ public class SecurityConfigurations {
 //                .and().build();
 //    }
 
+
     //http://localhost:8080/swagger-ui/index.html
     //versão 3.1 do spring
-    @Bean //Sem essa anotação no método, o objeto SecurityFilterChain não será exposto como um bean para o Spring.
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

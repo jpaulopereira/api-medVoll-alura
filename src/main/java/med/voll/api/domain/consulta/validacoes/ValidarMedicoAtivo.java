@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidarMedicoAtivo implements ValidadorAgendamentoDeConsulta {
 
-    //acessa o banco de dados
     @Autowired
     private MedicoRepository medicoRepository;
 

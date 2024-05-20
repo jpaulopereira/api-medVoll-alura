@@ -24,7 +24,6 @@ public class PacienteController {
         repository.save(new Paciente(dados));
     }
 
-
     @GetMapping
     public Page<DadosListagemPaciente> listar(@PageableDefault(page = 0, size = 10, sort = {"nome"}) Pageable paginacao) {
         return repository.findAllByAtivoTrue(paginacao).map(DadosListagemPaciente::new);
